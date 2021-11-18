@@ -14,6 +14,7 @@ from transformers import GPT2Config, GPT2LMHeadModel
 from utils.data_processor import create_data_loader
 
 
+<<<<<<< HEAD
 def save_model(
     model, 
     optimizer, 
@@ -39,6 +40,19 @@ def save_model(
         os.path.join(save_path, f'checkpoint-{iteration}.pt')
     )
 
+=======
+def save_model(model, optimizer, save_path, iteration):
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+    torch.save(
+        model.state_dict(),
+        os.path.join(save_path, f'checkpoint-{iteration}.pt')
+    )
+    torch.save(
+        optimizer.state_dict(),
+        os.path.join(save_path, f'optimizer-{iteration}.pt')
+    )
+>>>>>>> fede4e1955989bfc9c82cef0d4cf8805919ecafb
 
 
 def create_warm_up_function(
@@ -130,6 +144,13 @@ def train(
     )
     model = model.to(device)
 
+<<<<<<< HEAD
+=======
+    # Load from pretrained.
+    if config.ckpt_path:
+        model.load_state_dict(torch.load(config.ckpt_path))
+
+>>>>>>> fede4e1955989bfc9c82cef0d4cf8805919ecafb
     # Set bias and LayerNorm no weight dacay.
     no_decay = ['bias', 'ln']
     optim_group_params = [
@@ -154,6 +175,12 @@ def train(
         optim_group_params,
         lr=config.lr,
     )
+<<<<<<< HEAD
+=======
+    if config.optimizer_path:
+        optimizer.load_state_dict(torch.load(config.optimizer_path))
+
+>>>>>>> fede4e1955989bfc9c82cef0d4cf8805919ecafb
     warm_up_function = create_warm_up_function(
         config=config,
     )
